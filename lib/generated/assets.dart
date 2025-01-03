@@ -5,5 +5,15 @@ class Assets {
   static const String assetsCircle = 'assets/circle.png';
   static const String assetsCircle2 = 'assets/circle2.png';
   static const String assetsLoginbg = 'assets/loginbg.png';
+  static const String assetsLogo = 'assets/logo.png';
+  static const String assetsSample = 'assets/sample.png';
+  static const String iconsAngry = 'assets/icons/angry.svg';
+  static const String iconsCare = 'assets/icons/care.svg';
+  static const String iconsHaha = 'assets/icons/haha.svg';
+  static const String iconsLike = 'assets/icons/like.svg';
+  static const String iconsLove = 'assets/icons/love.svg';
+  static const String iconsMenu = 'assets/icons/menu.svg';
+  static const String iconsSad = 'assets/icons/sad.svg';
+  static const String iconsWow = 'assets/icons/wow.svg';
 
 }

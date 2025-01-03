@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../routes/app_routes.dart';
 import 'controller/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -43,6 +44,13 @@ class LoginScreen extends StatelessWidget {
               top: 180,
               left: 200,
               child: Image(height: 180, image: AssetImage("assets/circle.png")),
+            ),
+
+            Positioned(
+              top: 100,
+              left: 0,
+              right: 0,
+              child: Image(height: 180, image: AssetImage("assets/logo.png")),
             ),
 
             Positioned(
@@ -154,7 +162,10 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAllNamed(AppRoutes.NewsfeedScreen);
+
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow,
                         minimumSize: Size(double.infinity, 50),
