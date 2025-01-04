@@ -10,7 +10,7 @@ class NewsfeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff115C67),
+        backgroundColor: const Color(0xff115C67),
         leading: GestureDetector(
           onTap: () {
             // Add functionality for menu tap
@@ -25,9 +25,9 @@ class NewsfeedScreen extends StatelessWidget {
             ),
           ),
         ),
-        title: Column(
+        title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
               "Python Developer Community",
               style: TextStyle(
@@ -46,25 +46,37 @@ class NewsfeedScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
+      body: Column(
         children: [
-          PostWidget(
-            username: "Alexander John",
-            timeAgo: "2 days ago",
-            content: "Hello everyone this is a post from app to see if attached link is working or not. Here is a link https://www.merriam-webster.com/dictionary/link but I think this is not working. This should work but not working!!!!",
-            imageUrl: "assets/sample.png",
-            likes: 3,
-            comments: 12,
-          ),
-          SizedBox(height: 16),
-          PostWidget(
-            username: "Ruiz Rahim",
-            timeAgo: "2 days ago",
-            content: "This is sample Test for Checking",
-            imageUrl: null,
-            likes: 0,
-            comments: 0,
+          GestureDetector(
+            onTap: (){
+              showPostCreationScreen(context);
+            },
+              child: MyCustomCard()),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                PostWidget(
+                  username: "Alexander John",
+                  timeAgo: "2 days ago",
+                  content:
+                  "Hello everyone this is a post from app to see if attached link is working or not. Here is a link https://www.merriam-webster.com/dictionary/link but I think this is not working. This should work but not working!!!!",
+                  imageUrl: "assets/sample.png",
+                  likes: 3,
+                  comments: 12,
+                ),
+                const SizedBox(height: 16),
+                PostWidget(
+                  username: "Ruiz Rahim",
+                  timeAgo: "2 days ago",
+                  content: "This is sample Test for Checking",
+                  imageUrl: null,
+                  likes: 0,
+                  comments: 0,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -79,40 +91,128 @@ class NewsfeedScreen extends StatelessWidget {
             label: 'Logout',
           ),
         ],
-        selectedItemColor: Color(0xff115C67),
+        selectedItemColor: const Color(0xff115C67),
         unselectedItemColor: Colors.grey,
         onTap: (index) {
-          if (index == 1) { // Logout button is tapped
+          if (index == 1) {
             showDialog(
               context: context,
               builder: (context) => AlertDialog(
-                title: Text('Logout'),
-                content: Text('Are you sure, you want to logout?'),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                title: const Center(
+                  child: Text(
+                    'Logout',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                content: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'Are you sure, you want to log out?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, height: 1.5),
+                  ),
+                ),
                 actions: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextButton(
                         onPressed: () {
-                          Get.offAllNamed(AppRoutes.LoginScreen);
+                          Navigator.of(context).pop();
+                          // Add logout logic here
                         },
-                        child: Text('Yes'),
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                            color: Color(0xFF6200EE),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop(); // Close the dialog
+                          Navigator.of(context).pop();
                         },
-                        child: Text('No'),
+                        child: const Text(
+                          'No',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-
                 ],
               ),
             );
           }
         },
+      ),
+    );
+  }
+}
+
+class MyCustomCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(12.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 6.0,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(
+            flex: 2,
+            child: CircleAvatar(
+              backgroundColor: Colors.grey[400],
+              radius: 24.0,
+              child: const Icon(Icons.person, color: Colors.white),
+            ),
+          ),
+          const Expanded(
+            flex: 5,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Write Something here...",
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 3,
+            child: ElevatedButton(
+              onPressed: () {
+                // Add your post action here
+              },
+              child: const Text('Post'),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -184,7 +284,7 @@ class _PostWidgetState extends State<PostWidget> {
   void showCommentsBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
       ),
       builder: (BuildContext context) {
@@ -192,43 +292,93 @@ class _PostWidgetState extends State<PostWidget> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Comments',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
+              Row(
+                children: const [
+                  Icon(Icons.favorite, color: Colors.red),
+                  SizedBox(width: 8),
+                  Text('You and 2 others', style: TextStyle(fontWeight: FontWeight.bold)),
+                ],
               ),
-              Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5, // Replace with actual comment count
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.grey.shade300,
-                      child: Icon(Icons.person, color: Colors.grey.shade700),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey.shade300,
+                        child: const Icon(Icons.person, color: Colors.grey),
+                      ),
+                      title: const Text(
+                        'IAP Testing',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text('4 cup tcake'),
+                          SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Text('22d', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                              SizedBox(width: 16),
+                              Text('Like', style: TextStyle(color: Colors.blue, fontSize: 12)),
+                              SizedBox(width: 16),
+                              Text('Reply', style: TextStyle(color: Colors.blue, fontSize: 12)),
+                            ],
+                          ),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(Icons.thumb_up_alt, color: Colors.blue, size: 16),
+                          SizedBox(width: 4),
+                          Text('1', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                        ],
+                      ),
                     ),
-                    title: Text('User $index'),
-                    subtitle: Text('This is a sample comment.'),
-                  );
-                },
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: 'Write a comment...',
-                  border: OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 48.0),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.grey.shade300,
+                          child: const Icon(Icons.person, color: Colors.grey),
+                        ),
+                        title: const Text(
+                          'IAP Testing',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: const Text('Hhh'),
+                        trailing: const Icon(Icons.more_vert),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  // Add comment submission logic
-                  Navigator.pop(context);
-                },
-                child: Text('Post Comment'),
+              const Divider(),
+              Row(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.grey.shade300,
+                    child: const Icon(Icons.person, color: Colors.grey),
+                  ),
+                  const SizedBox(width: 8),
+                  const Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Write a Comment',
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.send, color: Color(0xff115C67)),
+                    onPressed: () {
+                      // Handle comment send action
+                    },
+                  ),
+                ],
               ),
             ],
           ),
@@ -236,6 +386,7 @@ class _PostWidgetState extends State<PostWidget> {
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -251,22 +402,22 @@ class _PostWidgetState extends State<PostWidget> {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.grey.shade300,
-                  child: Icon(Icons.person, color: Colors.grey.shade700),
+                  child: const Icon(Icons.person, color: Colors.grey),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.username,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
                     Text(
                       widget.timeAgo,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 12,
                       ),
@@ -275,25 +426,25 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               widget.content,
-              style: TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 14),
             ),
             if (widget.imageUrl != null) ...[
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(widget.imageUrl!),
               ),
             ],
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   onLongPressStart: (_) {
-                    timer = Timer(Duration(seconds: 1), () {
+                    timer = Timer(const Duration(seconds: 1), () {
                       setState(() {
                         isLongPress = true;
                       });
@@ -303,7 +454,6 @@ class _PostWidgetState extends State<PostWidget> {
                   onLongPressEnd: (_) {
                     timer?.cancel();
                     if (!isLongPress) {
-                      // Handle regular like
                       print("Liked");
                     }
                     setState(() {
@@ -313,10 +463,12 @@ class _PostWidgetState extends State<PostWidget> {
                   child: Row(
                     children: [
                       Icon(
-                        isLongPress ? Icons.emoji_emotions_outlined : Icons.thumb_up_alt_outlined,
+                        isLongPress
+                            ? Icons.emoji_emotions_outlined
+                            : Icons.thumb_up_alt_outlined,
                         color: Colors.grey,
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text("${widget.likes} Likes"),
                     ],
                   ),
@@ -327,8 +479,8 @@ class _PostWidgetState extends State<PostWidget> {
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.comment_outlined, color: Colors.grey),
-                      SizedBox(width: 4),
+                      const Icon(Icons.comment_outlined, color: Colors.grey),
+                      const SizedBox(width: 4),
                       Text("${widget.comments} Comments"),
                     ],
                   ),
@@ -341,3 +493,103 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 }
+
+
+
+void showPostCreationScreen(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+    ),
+    builder: (BuildContext context) {
+      return SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.only(top: 60.0, bottom: 16, left: 16, right: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Text(
+                      "Close",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    "Create Post",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      // Add post creation logic here
+                    },
+                    child: const Text(
+                      "Create",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const TextField(
+                decoration: InputDecoration(
+                  hintText: "What's on your mind?",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+                maxLines: 3,
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildColorOption(Colors.white),
+                  _buildColorOption(Colors.pink),
+                  _buildColorOption(Colors.green),
+                  _buildColorOption(Colors.yellow),
+                  _buildColorOption(Colors.red),
+                  _buildColorOption(Colors.blue),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+Widget _buildColorOption(Color color) {
+  return GestureDetector(
+    onTap: () {
+      // Handle background color selection
+    },
+    child: Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+    ),
+  );
+}
+

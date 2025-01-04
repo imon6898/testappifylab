@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:testappifylab/routes/app_pages.dart';
 import 'package:testappifylab/routes/app_routes.dart';
 import 'package:testappifylab/utils/text_const.dart';
@@ -9,7 +10,9 @@ import 'binding/view_model_binding.dart';
 
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
